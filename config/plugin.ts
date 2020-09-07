@@ -6,6 +6,14 @@ const plugin: EggPlugin = {
   //   enable: true,
   //   package: 'egg-view-nunjucks',
   // },
+  multipart: {
+    enable: true,
+    package: 'egg-multipart',
+  },
+  cors: {
+    enable: true,
+    package: 'egg-cors',
+  },
 };
 
 export default plugin;

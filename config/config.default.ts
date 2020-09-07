@@ -15,6 +15,30 @@ export default (appInfo: EggAppInfo) => {
     sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,
   };
 
+  config.security = {
+    xframe: {
+      enable: true,
+    },
+    csrf: {
+      enable: false,
+    },
+    methodnoallow: {
+      enable: true,
+    },
+  };
+
+  config.cors = {
+    origin:'*',
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH'
+  };
+
+  config.multipart = {
+    fileSize: '10mb',
+    mode: 'stream',
+    fileExtensions: ['.raw', '.dmg', '.docx', '.pptx', '.txt']
+    // whitelist: ['.png', '.mp4', '.raw', '.dmg'],
+  };
+
   // the return config will combines to EggAppConfig
   return {
     ...config,
