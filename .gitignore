@@ -20,3 +20,4 @@ test/**/*.map
 config/**/*.map
 package-lock.json
 app/public/
+app/temp/

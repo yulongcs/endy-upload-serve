@@ -9,10 +9,11 @@ import {
   WriteStream,
   createReadStream,
   unlink,
+  ensureDirSync,
 } from 'fs-extra';
 
-// 文件分割默认大小： 100KB
-const DEFAULT_SIZE = 1024 * 100;
+// 文件分割默认大小： 1mb
+const DEFAULT_SIZE = 1024 * 1024 * 1;
 
 export const PUBLIC_DIR = pathResolve(__dirname, '../', 'public/uploads');
 
@@ -65,6 +66,9 @@ export const mergeChunks = async (filename: string, size: number = DEFAULT_SIZE)
   //按文件名后面切片数字升序排列
   chunkFiles.sort((a, b) => Number(a.split('-').slice(-1)) - Number(b.split('-').slice(-1)));
 
+  // 确保目录的存在。如果目录结构不存在,就创建一个。同步
+  ensureDirSync(PUBLIC_DIR);
+
   await Promise.all(
     chunkFiles.map((chunkFile: string, index: number) => {
       return pipeStream(
@@ -96,6 +100,3 @@ export const pipeStream = (filePath: string, ws: WriteStream): Promise<undefined
     rs.pipe(ws);
   });
 };
-
-// splitChunks('image.png');
-// mergeChunks('image.png');
