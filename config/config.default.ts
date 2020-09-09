@@ -33,7 +33,7 @@ export default (appInfo: EggAppInfo) => {
   };
 
   config.multipart = {
-    fileSize: '1024mb',
+    fileSize: '10mb',
     mode: 'stream',
     fileExtensions: ['.raw', '.dmg', '.docx', '.pptx', '.txt', '']
     // whitelist: ['.png', '.mp4', '.raw', '.dmg'],

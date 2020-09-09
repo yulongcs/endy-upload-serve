@@ -52,7 +52,7 @@ export const splitChunks = async (filename: string, size: number = DEFAULT_SIZE)
 }
 
 /**
- * 1.读取temp目录下tom.jpg目录里所有的文件,按尾部的索引号 
+ * 1.读取temp目录下image.jpg目录里所有的文件,按尾部的索引号 
  * 2.把它们累加在一起，另外一旦加过了要把temp目录里的文件删除
  * 3.为了提高性能，尽量用流来实现，不要readFile writeFile
  */
