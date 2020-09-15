@@ -8,7 +8,7 @@ export default (app: Application) => {
   // upload
   router.post('/upload', controller.upload.upload);
   router.post('/upload/:filename/:chunk_name/', controller.upload.chunkUpload);
+  router.post('/upload/:filename/:chunk_name/:start', controller.upload.breakpointUpload);
   router.post('/merge', controller.upload.merge);
   router.get('/verify/:filename', controller.upload.verify);
- 
 };
