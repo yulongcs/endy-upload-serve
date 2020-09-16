@@ -81,7 +81,7 @@ export default class UploadController extends Controller {
     ensureDirSync(chunkPath);
     // 写入流
     const writeStream = createWriteStream(target, {
-      start: isNaN(Number(start)) ? 0 : Number(start),
+      start: isNaN(Number(start)) ? 0 : Number(start), // 写入流的起点位置，断点续传
     });
     //异步把文件流 写入
     stream.pipe(writeStream);
@@ -117,6 +117,7 @@ export default class UploadController extends Controller {
     const filePath = path.resolve(PUBLIC_DIR, filename);
     let existFile = await fs.pathExists(filePath);
     const { host } = ctx.header;
+    // 校验文件是否完整存在，存在直接返回接口，实现秒传
     if (existFile) {
       return ctx.body = {
         success: true,
@@ -125,6 +126,7 @@ export default class UploadController extends Controller {
       };
     }
 
+    // 如果不存在，收集临时目录里面的上传碎片，返回已上传的文件以及大小
     let tempFilePath = path.resolve(TEMP_DIR, filename);
     let uploadedList: any[] = [];
     let existTemporaryFile = await fs.pathExists(tempFilePath);
@@ -132,10 +134,11 @@ export default class UploadController extends Controller {
       uploadedList = await fs.readdir(tempFilePath);
       uploadedList = await Promise.all(
         uploadedList.map(async (filename: string) => {
+          // 获取文件信息
           let stat = await fs.stat(path.resolve(tempFilePath, filename));
           return {
             filename,
-            size: stat.size
+            size: stat.size // 已经上传的大小
           }
         }));
     }
